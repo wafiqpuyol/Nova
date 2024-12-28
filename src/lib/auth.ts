@@ -1,5 +1,4 @@
 import { PrismaAdapter } from "@auth/prisma-adapter";
-import bcrypt from 'bcrypt';
 import { getServerSession, NextAuthOptions } from "next-auth";
 import { Adapter } from "next-auth/adapters";
 import CredentialsProvider from "next-auth/providers/credentials";
@@ -7,7 +6,7 @@ import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import { SignInSchema } from '../schema/signInSchema';
 import { prismaClient } from "./db";
-
+import { comparePassword } from "@/lib/util";
 
 export const authOptions: NextAuthOptions = {
     session: {
@@ -53,9 +52,10 @@ export const authOptions: NextAuthOptions = {
                 if (!isUserExist?.email || !isUserExist.hashedPassword) {
                     throw new Error("Invalid email or username")
                 }
-                const isPasswordMatched = await bcrypt.compare(isUserExist.hashedPassword, password)
+
+                const { errMsg, isPasswordMatched } = await comparePassword(isUserExist.hashedPassword, password)
                 if (!isPasswordMatched) {
-                    throw new Error("Invalid email or password")
+                    throw new Error(errMsg)
                 }
 
                 return isUserExist
