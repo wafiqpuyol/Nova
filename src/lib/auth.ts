@@ -6,7 +6,7 @@ import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import { SignInSchema } from '../schema/signInSchema';
 import { prismaClient } from "./db";
-import { comparePassword } from "@/lib/util";
+import { comparePassword } from "@/lib/common";
 
 export const authOptions: NextAuthOptions = {
     session: {
