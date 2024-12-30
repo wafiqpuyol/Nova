@@ -1,7 +1,9 @@
 import React from 'react'
 import Image from "next/image"
-import { Card, CardDescription, CardHeader, CardTitle } from "../ui/card";
 import Link from 'next/link';
+import { Card, CardDescription, CardHeader, CardTitle } from "../ui/card";
+import { SignInCard } from "./SignInCard"
+import { SignUpCard } from "./SignUpCard"
 
 
 interface AuthCardProps {
@@ -26,7 +28,7 @@ export const AuthCard: React.FC<AuthCardProps> = ({ signIn }) => {
                         {signIn ? "Welcome back to ...." : "Create your account"}
                     </CardDescription>
                 </CardHeader>
-                {signIn ? <SignInCardContent /> : <SignUpCardContent />}
+                {signIn ? <SignInCard />: <SignUpCard />}
             </Card>
             <p className="text-sm">
                 {signIn
