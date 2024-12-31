@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server"
 import { prismaClient } from "@/lib/db"
-import { SignInSchema } from "@/schema/signInSchema"
+import { SignUpSchema } from "@/schema/signUpSchema"
 import bcrypt from "bcrypt"
 import { SALT_ROUND } from "@/lib/constant"
 import { StatusCodes } from 'http-status-codes';
@@ -10,7 +10,7 @@ import { formateErrResponse } from "@/lib/utils"
 export async function POST(request: Request) {
     try {
         const body = await request.json()
-        const parsedPayload = SignInSchema.safeParse(body)
+        const parsedPayload = SignUpSchema.safeParse(body)
 
         if (!parsedPayload.success) {
             return NextResponse.json(

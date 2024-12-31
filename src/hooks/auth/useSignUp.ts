@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import { SignInSchema, signInPayload } from "@/schema/signInSchema"
+import { SignUpSchema, signUpPayload } from "@/schema/signUpSchema"
 import { useState } from "react"
 import axios, { AxiosError } from "axios"
 import { useToast } from "@/hooks/use-toast"
@@ -12,8 +12,8 @@ export const useSignUp = () => {
     const { toast } = useToast()
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const router = useRouter()
-    const form = useForm<signInPayload>({
-        resolver: zodResolver(SignInSchema),
+    const form = useForm<signUpPayload>({
+        resolver: zodResolver(SignUpSchema),
         defaultValues: {
             username: "",
             email: "",
@@ -21,7 +21,7 @@ export const useSignUp = () => {
         },
     })
 
-    const onSubmit = async (payload: signInPayload) => {
+    const onSubmit = async (payload: signUpPayload) => {
         try {
             const res = await axios.post("/api/auth/signup/", payload)
             if (res.status === StatusCodes.CREATED) {

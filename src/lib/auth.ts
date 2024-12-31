@@ -4,7 +4,7 @@ import { Adapter } from "next-auth/adapters";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
-import { SignInSchema } from '../schema/signInSchema';
+import { SignUpSchema } from '../schema/signUpSchema';
 import { prismaClient } from "./db";
 import { comparePassword } from "@/lib/common";
 
@@ -38,7 +38,7 @@ export const authOptions: NextAuthOptions = {
                 },
             },
             async authorize(credentials) {
-                const validatedFields = SignInSchema.safeParse(credentials)
+                const validatedFields = SignUpSchema.safeParse(credentials)
                 if (!validatedFields.success) {
                     throw new Error("Invalid email or password or username")
                 }
