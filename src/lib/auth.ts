@@ -4,7 +4,7 @@ import { Adapter } from "next-auth/adapters";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
-import { SignUpSchema } from '../schema/signUpSchema';
+import { SignInSchema } from '../schema/signInSchema';
 import { prismaClient } from "./db";
 import { comparePassword } from "@/lib/common";
 
@@ -38,19 +38,19 @@ export const authOptions: NextAuthOptions = {
                 },
             },
             async authorize(credentials) {
-                const validatedFields = SignUpSchema.safeParse(credentials)
+                const validatedFields = SignInSchema.safeParse(credentials)
                 if (!validatedFields.success) {
-                    throw new Error("Invalid email or password or username")
+                    throw new Error("Invalid email or password")
                 }
 
-                const { email, password, username } = validatedFields.data
-                const isUserExist = await prismaClient.user.findFirst({
+                const { email, password } = validatedFields.data
+                const isUserExist = await prismaClient.user.findUnique({
                     where: {
-                        AND: [{ email }, { username }]
-                    },
+                        email
+                    }
                 })
                 if (!isUserExist?.email || !isUserExist.hashedPassword) {
-                    throw new Error("Invalid email or username")
+                    throw new Error("Invalid email or password. Please sign up first")
                 }
 
                 const { errMsg, isPasswordMatched } = await comparePassword(isUserExist.hashedPassword, password)

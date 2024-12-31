@@ -22,6 +22,7 @@ export const useSignUp = () => {
     })
 
     const onSubmit = async (payload: signUpPayload) => {
+        setIsLoading(true);
         try {
             const res = await axios.post("/api/auth/signup/", payload)
             if (res.status === StatusCodes.CREATED) {
@@ -42,35 +43,39 @@ export const useSignUp = () => {
             if (error instanceof AxiosError) {
                 switch (error.status) {
                     case StatusCodes.UNAUTHORIZED:
-                        return toast({
+                        toast({
                             title: "Authentication Error",
                             description: error.response?.data.message,
                             variant: "destructive",
                             duration: 3000,
                         })
+                        break;
                     case StatusCodes.CONFLICT:
-                        return toast({
+                        toast({
                             title: "Authentication Error",
                             description: error.response?.data.message,
                             variant: "destructive",
                             duration: 3000,
                         })
+                        break;
                     case StatusCodes.INTERNAL_SERVER_ERROR:
-                        return toast({
+                        toast({
                             title: "Authentication Error",
                             description: error.response?.data.message,
                             variant: "destructive",
                             duration: 3000,
                         })
+                        break;
                     case StatusCodes.INTERNAL_SERVER_ERROR:
-                        return toast({
+                        toast({
                             title: "Authentication Error",
                             description: error.response?.data.message,
                             variant: "destructive",
                             duration: 3000,
                         })
+                        break;
                     default:
-                        return toast({
+                        toast({
                             title: "Something went wrong while signing up",
                             variant: "destructive",
                             duration: 3000,
@@ -78,7 +83,8 @@ export const useSignUp = () => {
                 }
             }
         }
+        setIsLoading(false);
     }
 
-    return { onSubmit, form, isLoading, setIsLoading }
+    return { onSubmit, form, isLoading }
 }
