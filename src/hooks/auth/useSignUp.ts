@@ -86,5 +86,5 @@ export const useSignUp = () => {
         setIsLoading(false);
     }
 
-    return { onSubmit, form, isLoading }
+    return { onSubmit, form, isLoading, setIsLoading }
 }

@@ -7,14 +7,15 @@ import { CardContent } from '../ui/card'
 import { Form, FormField, FormItem, FormControl, FormMessage } from '../ui/form'
 import { LoadingState } from '../ui/loadingState'
 import { useSignIn } from '@/hooks/auth/useSignIn'
+import { ProviderSignInBtnWrapper } from "./ProviderSignInBtnWrapper"
 
 export const SignInCard = () => {
-    const { form, isLoading, onSubmit } = useSignIn()
+    const { form, isLoading, onSubmit, setIsLoading } = useSignIn()
     return (
         <CardContent>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-7">
-                    {/* //TODO add provider sign in btns */}
+                    <ProviderSignInBtnWrapper signInCard onLoading={setIsLoading} />
                     <div className="space-y-1.5">
                         <FormField
                             control={form.control}
@@ -48,7 +49,7 @@ export const SignInCard = () => {
                     <div className="space-y-2">
                         <Button
                             disabled={isLoading}
-                            className="w-full font-bold text-white"
+                            className="w-full font-bold"
                             type="submit"
                         >
                             {isLoading ? (

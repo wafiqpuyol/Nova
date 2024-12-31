@@ -59,5 +59,5 @@ export const useSignIn = () => {
         setIsLoading(false);
     };
 
-    return { form, onSubmit, isLoading };
+    return { form, onSubmit, isLoading, setIsLoading };
 }

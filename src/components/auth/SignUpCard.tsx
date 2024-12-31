@@ -13,15 +13,16 @@ import {
 } from "@/components/ui/form";
 import { useSignUp } from "@/hooks/auth/useSignUp"
 import { LoadingState } from "../ui/loadingState"
+import { ProviderSignInBtnWrapper } from "./ProviderSignInBtnWrapper"
 
 export const SignUpCard = () => {
-    const { form, onSubmit, isLoading } = useSignUp()
+    const { form, onSubmit, isLoading, setIsLoading } = useSignUp()
 
     return (
         <CardContent>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-7">
-                    {/* //TODO add provider sign in btns */}
+                    <ProviderSignInBtnWrapper disabled={isLoading} onLoading={setIsLoading} />
                     <div className="space-y-1.5">
                         <FormField
                             control={form.control}
@@ -67,7 +68,7 @@ export const SignUpCard = () => {
                     <div className="space-y-2">
                         <Button
                             disabled={isLoading}
-                            className="w-full font-bold text-white"
+                            className="w-full font-bold"
                             type="submit"
                         >
                             {isLoading ? (
