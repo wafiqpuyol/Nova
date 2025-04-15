@@ -19,17 +19,24 @@ export async function POST(request: Request) {
                     data: {},
                     path: parsedPayload.error.errors[0].path,
                 }),
-                { status: StatusCodes.UNAUTHORIZED })
+                { status: StatusCodes.BAD_REQUEST })
         }
 
-        const existedUsername = await prismaClient.user.findUnique({
+        const existedUsername = await prismaClient.user.findFirst({
             where: {
-                username: parsedPayload.data.username
+                OR: [
+                    {
+                        username: parsedPayload.data.username
+                    },
+                    {
+                        email: parsedPayload.data.email
+                    }
+                ]
             }
         });
         if (existedUsername) {
             return NextResponse.json(
-                formateErrResponse({ message: "Username is already taken", data: {} }),
+                formateErrResponse({ message: "Username is already taken. Try to use different username", data: {} }),
                 { status: StatusCodes.CONFLICT }
             );
         }
