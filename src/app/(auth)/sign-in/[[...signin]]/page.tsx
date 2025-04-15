@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 const SignIn = () => {
     return (
-        <AuthCard signIn />
+        <AuthCard signInCard />
     )
 }
 

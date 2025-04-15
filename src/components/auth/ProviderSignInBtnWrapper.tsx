@@ -2,14 +2,18 @@ import { GithubLogo } from "../svg/GithubLogo";
 import { GoogleLogo } from "../svg/GoogleLogo";
 import { ProviderSignInBtn } from "./ProviderSignInBtn";
 
-export const ProviderSignInBtnWrapper = ({
-    signInCard,
-    disabled,
-    onLoading,
-}: {
+
+
+interface ProviderSignInBtnWrapperProps {
     signInCard?: boolean;
     disabled?: boolean;
     onLoading: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export const ProviderSignInBtnWrapper: React.FC<ProviderSignInBtnWrapperProps> = ({
+    signInCard,
+    disabled,
+    onLoading,
 }) => {
 
     return (

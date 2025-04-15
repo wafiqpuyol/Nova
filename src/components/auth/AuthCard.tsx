@@ -7,9 +7,10 @@ import { SignUpCard } from "./SignUpCard"
 
 
 interface AuthCardProps {
-    signIn?: boolean
+    signInCard?: boolean
 }
-export const AuthCard: React.FC<AuthCardProps> = ({ signIn }) => {
+
+export const AuthCard: React.FC<AuthCardProps> = ({ signInCard }) => {
     return (
         <>
             <Card className="w-full sm:min-w-[28rem] sm:w-auto">
@@ -22,23 +23,23 @@ export const AuthCard: React.FC<AuthCardProps> = ({ signIn }) => {
                         src={"https://github.com/shadcn.png"}
                     />
                     <CardTitle className="pt-2">
-                        {signIn ? "Sign in" : "Sign up"}
+                        {signInCard ? "Sign in" : "Sign up"}
                     </CardTitle>
                     <CardDescription>
-                        {signIn ? "Welcome back to ...." : "Create your account"}
+                        {signInCard ? "Welcome back to ...." : "Create your account"}
                     </CardDescription>
                 </CardHeader>
-                {signIn ? <SignInCard />: <SignUpCard />}
+                {signInCard ? <SignInCard /> : <SignUpCard />}
             </Card>
             <p className="text-sm">
-                {signIn
+                {signInCard
                     ? "Don't have an account?"
                     : "Already have an account?"}{" "}
                 <Link
                     className="text-primary"
-                    href={signIn ? "/sign-up" : "/sign-in"}
+                    href={signInCard ? "/sign-up" : "/sign-in"}
                 >
-                    {signIn ? "Sign up" : "Sign in"}{" "}
+                    {signInCard ? "Sign up" : "Sign in"}{" "}
                 </Link>
             </p>
         </>

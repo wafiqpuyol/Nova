@@ -28,7 +28,7 @@ export const ProviderSignInBtn: React.FC<ProviderSignInBtnProps> = ({
         } catch (err: unknown) {
             toast({
                 title: `${providerName}: Error`,
-                description: err.message,
+                description: err instanceof Error ? err.message : "An unknown error occurred",
                 variant: "destructive",
             })
         }
