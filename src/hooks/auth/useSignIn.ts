@@ -30,6 +30,7 @@ export const useSignIn = () => {
             });
             console.log(signInInfo);
             if (!signInInfo) throw new Error("Something went wrong while signing in")
+            setIsLoading(false);
             if (signInInfo.error) {
                 toast({
                     title: "Authentication Error",
