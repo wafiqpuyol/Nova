@@ -1,4 +1,4 @@
-import { ThemeSwitcher } from "@/components/switcher/ThemeSwitcher";
+import { ThemeSwitcher } from "@/components/switchers/ThemeSwitcher";
 
 const AuthLayout = ({ children }: { children: React.ReactNode }) => {
     return (
