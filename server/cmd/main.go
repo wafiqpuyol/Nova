@@ -5,18 +5,20 @@ import (
 	"log"
 	"net/http"
 	"sync"
+
+	DB "github.com/wafiqpuyol/nova-server/internal/db"
+	"github.com/wafiqpuyol/nova-server/pkg/config"
 )
 
-func startHealthCheckServer(wg *sync.WaitGroup) {
-
+func startHealthCheckServer(wg *sync.WaitGroup, port string) {
 	defer wg.Done()
 	http.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 		fmt.Fprintf(w, "Ready")
 	})
-	port := ":3002"
+
 	log.Printf("Health check server listening at %s", port)
-	if err := http.ListenAndServe(port, nil); err != nil {
+	if err := http.ListenAndServe(":"+port, nil); err != nil {
 		log.Fatalf("failed to start Health Check server: %v", err)
 	}
 
@@ -25,8 +27,10 @@ func startHealthCheckServer(wg *sync.WaitGroup) {
 func main() {
 	var wg sync.WaitGroup
 
+	env := config.GetEnvVariable()
+	DB.ConnectDatabase(env.DB_URL)
 	wg.Add(2)
-	go startHealthCheckServer(&wg)
+	go startHealthCheckServer(&wg, env.REST_API_PORT)
 
 	wg.Wait()
 }
