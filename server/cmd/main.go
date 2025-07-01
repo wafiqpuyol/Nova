@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"net/http"
@@ -25,10 +26,15 @@ func startHealthCheckServer(wg *sync.WaitGroup, port string) {
 }
 
 func main() {
+	ctx := context.Background()
 	var wg sync.WaitGroup
 
 	env := config.GetEnvVariable()
 	DB.ConnectDatabase(env.DB_URL)
+	DB.ConnectRedis(ctx, &DB.Creds{
+		Pssword: env.REDIS_PASSWORD,
+		URL:     env.REDIS_URL,
+	})
 	wg.Add(2)
 	go startHealthCheckServer(&wg, env.REST_API_PORT)
 
