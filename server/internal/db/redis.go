@@ -8,15 +8,15 @@ import (
 	"github.com/redis/go-redis/v9"
 )
 
-type Creds struct {
-	URL     string
-	Pssword string
+type RedisCreds struct {
+	URL      string
+	Password string
 }
 
-func ConnectRedis(ctx context.Context, redisCreds *Creds) *redis.Client {
+func ConnectRedis(ctx context.Context, redisCreds *RedisCreds) *redis.Client {
 	client := redis.NewClient(&redis.Options{
 		Addr:     redisCreds.URL,
-		Password: redisCreds.Pssword,
+		Password: redisCreds.Password,
 		DB:       0,
 	})
 
@@ -25,4 +25,5 @@ func ConnectRedis(ctx context.Context, redisCreds *Creds) *redis.Client {
 		log.Fatal("Error connecting to Redis:", err)
 	}
 	fmt.Println("Connected to Redis:", pong)
+	return client
 }
