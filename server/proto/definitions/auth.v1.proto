@@ -1,0 +1,15 @@
+syntax="proto3";
+package service.signup;
+option go_package="gen/go/auth";
+
+import "types/auth.proto";    
+import "types/google/api/annotations.proto";
+
+service AuthService {
+    rpc signup (type.signup.SignUpRequest) returns (type.signup.SignUpResponse) {
+        option (google.api.http) = {
+            post:"/api/v1/signup",
+            body:"*"
+        };
+    }
+}
