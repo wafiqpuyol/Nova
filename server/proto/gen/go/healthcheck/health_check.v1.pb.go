@@ -25,17 +25,17 @@ var File_health_check_v1_proto protoreflect.FileDescriptor
 
 const file_health_check_v1_proto_rawDesc = "" +
 	"\n" +
-	"\x15health_check.v1.proto\x12\x13service.healthCheck\x1a\x18types/health_check.proto\x1a\"types/google/api/annotations.proto2|\n" +
-	"\vHealthCheck\x12m\n" +
-	"\vhealthCheck\x12%.type.health_check.HealthCheckRequest\x1a&.type.health_check.HealthCheckResponse\"\x0f\x82\xd3\xe4\x93\x02\t\x12\a/healthB\x14Z\x12gen/go/healthcheckb\x06proto3"
+	"\x15health_check.v1.proto\x12\x13service.healthCheck\x1a\x18types/health_check.proto\x1a\"types/google/api/annotations.proto2\x8a\x01\n" +
+	"\x12HealthCheckService\x12t\n" +
+	"\vhealthCheck\x12%.type.health_check.HealthCheckRequest\x1a&.type.health_check.HealthCheckResponse\"\x16\x82\xd3\xe4\x93\x02\x10\x12\x0e/api/v1/healthB\x14Z\x12gen/go/healthcheckb\x06proto3"
 
 var file_health_check_v1_proto_goTypes = []any{
 	(*HealthCheckRequest)(nil),  // 0: type.health_check.HealthCheckRequest
 	(*HealthCheckResponse)(nil), // 1: type.health_check.HealthCheckResponse
 }
 var file_health_check_v1_proto_depIdxs = []int32{
-	0, // 0: service.healthCheck.HealthCheck.healthCheck:input_type -> type.health_check.HealthCheckRequest
-	1, // 1: service.healthCheck.HealthCheck.healthCheck:output_type -> type.health_check.HealthCheckResponse
+	0, // 0: service.healthCheck.HealthCheckService.healthCheck:input_type -> type.health_check.HealthCheckRequest
+	1, // 1: service.healthCheck.HealthCheckService.healthCheck:output_type -> type.health_check.HealthCheckResponse
 	1, // [1:2] is the sub-list for method output_type
 	0, // [0:1] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name

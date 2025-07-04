@@ -35,7 +35,7 @@ var (
 	_ = metadata.Join
 )
 
-func request_HealthCheck_HealthCheck_0(ctx context.Context, marshaler runtime.Marshaler, client HealthCheckClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_HealthCheckService_HealthCheck_0(ctx context.Context, marshaler runtime.Marshaler, client HealthCheckServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
 		protoReq HealthCheckRequest
 		metadata runtime.ServerMetadata
@@ -47,7 +47,7 @@ func request_HealthCheck_HealthCheck_0(ctx context.Context, marshaler runtime.Ma
 	return msg, metadata, err
 }
 
-func local_request_HealthCheck_HealthCheck_0(ctx context.Context, marshaler runtime.Marshaler, server HealthCheckServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func local_request_HealthCheckService_HealthCheck_0(ctx context.Context, marshaler runtime.Marshaler, server HealthCheckServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
 		protoReq HealthCheckRequest
 		metadata runtime.ServerMetadata
@@ -56,39 +56,39 @@ func local_request_HealthCheck_HealthCheck_0(ctx context.Context, marshaler runt
 	return msg, metadata, err
 }
 
-// RegisterHealthCheckHandlerServer registers the http handlers for service HealthCheck to "mux".
-// UnaryRPC     :call HealthCheckServer directly.
+// RegisterHealthCheckServiceHandlerServer registers the http handlers for service HealthCheckService to "mux".
+// UnaryRPC     :call HealthCheckServiceServer directly.
 // StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
-// Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterHealthCheckHandlerFromEndpoint instead.
+// Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterHealthCheckServiceHandlerFromEndpoint instead.
 // GRPC interceptors will not work for this type of registration. To use interceptors, you must use the "runtime.WithMiddlewares" option in the "runtime.NewServeMux" call.
-func RegisterHealthCheckHandlerServer(ctx context.Context, mux *runtime.ServeMux, server HealthCheckServer) error {
-	mux.Handle(http.MethodGet, pattern_HealthCheck_HealthCheck_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+func RegisterHealthCheckServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux, server HealthCheckServiceServer) error {
+	mux.Handle(http.MethodGet, pattern_HealthCheckService_HealthCheck_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/service.healthCheck.HealthCheck/HealthCheck", runtime.WithHTTPPathPattern("/health"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/service.healthCheck.HealthCheckService/HealthCheck", runtime.WithHTTPPathPattern("/api/v1/health"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_HealthCheck_HealthCheck_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_HealthCheckService_HealthCheck_0(annotatedContext, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		forward_HealthCheck_HealthCheck_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_HealthCheckService_HealthCheck_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
 
 	return nil
 }
 
-// RegisterHealthCheckHandlerFromEndpoint is same as RegisterHealthCheckHandler but
+// RegisterHealthCheckServiceHandlerFromEndpoint is same as RegisterHealthCheckServiceHandler but
 // automatically dials to "endpoint" and closes the connection when "ctx" gets done.
-func RegisterHealthCheckHandlerFromEndpoint(ctx context.Context, mux *runtime.ServeMux, endpoint string, opts []grpc.DialOption) (err error) {
+func RegisterHealthCheckServiceHandlerFromEndpoint(ctx context.Context, mux *runtime.ServeMux, endpoint string, opts []grpc.DialOption) (err error) {
 	conn, err := grpc.NewClient(endpoint, opts...)
 	if err != nil {
 		return err
@@ -107,45 +107,45 @@ func RegisterHealthCheckHandlerFromEndpoint(ctx context.Context, mux *runtime.Se
 			}
 		}()
 	}()
-	return RegisterHealthCheckHandler(ctx, mux, conn)
+	return RegisterHealthCheckServiceHandler(ctx, mux, conn)
 }
 
-// RegisterHealthCheckHandler registers the http handlers for service HealthCheck to "mux".
+// RegisterHealthCheckServiceHandler registers the http handlers for service HealthCheckService to "mux".
 // The handlers forward requests to the grpc endpoint over "conn".
-func RegisterHealthCheckHandler(ctx context.Context, mux *runtime.ServeMux, conn *grpc.ClientConn) error {
-	return RegisterHealthCheckHandlerClient(ctx, mux, NewHealthCheckClient(conn))
+func RegisterHealthCheckServiceHandler(ctx context.Context, mux *runtime.ServeMux, conn *grpc.ClientConn) error {
+	return RegisterHealthCheckServiceHandlerClient(ctx, mux, NewHealthCheckServiceClient(conn))
 }
 
-// RegisterHealthCheckHandlerClient registers the http handlers for service HealthCheck
-// to "mux". The handlers forward requests to the grpc endpoint over the given implementation of "HealthCheckClient".
-// Note: the gRPC framework executes interceptors within the gRPC handler. If the passed in "HealthCheckClient"
+// RegisterHealthCheckServiceHandlerClient registers the http handlers for service HealthCheckService
+// to "mux". The handlers forward requests to the grpc endpoint over the given implementation of "HealthCheckServiceClient".
+// Note: the gRPC framework executes interceptors within the gRPC handler. If the passed in "HealthCheckServiceClient"
 // doesn't go through the normal gRPC flow (creating a gRPC client etc.) then it will be up to the passed in
-// "HealthCheckClient" to call the correct interceptors. This client ignores the HTTP middlewares.
-func RegisterHealthCheckHandlerClient(ctx context.Context, mux *runtime.ServeMux, client HealthCheckClient) error {
-	mux.Handle(http.MethodGet, pattern_HealthCheck_HealthCheck_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+// "HealthCheckServiceClient" to call the correct interceptors. This client ignores the HTTP middlewares.
+func RegisterHealthCheckServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux, client HealthCheckServiceClient) error {
+	mux.Handle(http.MethodGet, pattern_HealthCheckService_HealthCheck_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/service.healthCheck.HealthCheck/HealthCheck", runtime.WithHTTPPathPattern("/health"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/service.healthCheck.HealthCheckService/HealthCheck", runtime.WithHTTPPathPattern("/api/v1/health"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_HealthCheck_HealthCheck_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_HealthCheckService_HealthCheck_0(annotatedContext, inboundMarshaler, client, req, pathParams)
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		forward_HealthCheck_HealthCheck_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_HealthCheckService_HealthCheck_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
 	return nil
 }
 
 var (
-	pattern_HealthCheck_HealthCheck_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"health"}, ""))
+	pattern_HealthCheckService_HealthCheck_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "v1", "health"}, ""))
 )
 
 var (
-	forward_HealthCheck_HealthCheck_0 = runtime.ForwardResponseMessage
+	forward_HealthCheckService_HealthCheck_0 = runtime.ForwardResponseMessage
 )

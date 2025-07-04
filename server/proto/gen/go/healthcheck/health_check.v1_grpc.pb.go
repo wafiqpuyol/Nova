@@ -19,101 +19,101 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	HealthCheck_HealthCheck_FullMethodName = "/service.healthCheck.HealthCheck/healthCheck"
+	HealthCheckService_HealthCheck_FullMethodName = "/service.healthCheck.HealthCheckService/healthCheck"
 )
 
-// HealthCheckClient is the client API for HealthCheck service.
+// HealthCheckServiceClient is the client API for HealthCheckService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type HealthCheckClient interface {
+type HealthCheckServiceClient interface {
 	HealthCheck(ctx context.Context, in *HealthCheckRequest, opts ...grpc.CallOption) (*HealthCheckResponse, error)
 }
 
-type healthCheckClient struct {
+type healthCheckServiceClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewHealthCheckClient(cc grpc.ClientConnInterface) HealthCheckClient {
-	return &healthCheckClient{cc}
+func NewHealthCheckServiceClient(cc grpc.ClientConnInterface) HealthCheckServiceClient {
+	return &healthCheckServiceClient{cc}
 }
 
-func (c *healthCheckClient) HealthCheck(ctx context.Context, in *HealthCheckRequest, opts ...grpc.CallOption) (*HealthCheckResponse, error) {
+func (c *healthCheckServiceClient) HealthCheck(ctx context.Context, in *HealthCheckRequest, opts ...grpc.CallOption) (*HealthCheckResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(HealthCheckResponse)
-	err := c.cc.Invoke(ctx, HealthCheck_HealthCheck_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, HealthCheckService_HealthCheck_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// HealthCheckServer is the server API for HealthCheck service.
-// All implementations must embed UnimplementedHealthCheckServer
+// HealthCheckServiceServer is the server API for HealthCheckService service.
+// All implementations must embed UnimplementedHealthCheckServiceServer
 // for forward compatibility.
-type HealthCheckServer interface {
+type HealthCheckServiceServer interface {
 	HealthCheck(context.Context, *HealthCheckRequest) (*HealthCheckResponse, error)
-	mustEmbedUnimplementedHealthCheckServer()
+	mustEmbedUnimplementedHealthCheckServiceServer()
 }
 
-// UnimplementedHealthCheckServer must be embedded to have
+// UnimplementedHealthCheckServiceServer must be embedded to have
 // forward compatible implementations.
 //
 // NOTE: this should be embedded by value instead of pointer to avoid a nil
 // pointer dereference when methods are called.
-type UnimplementedHealthCheckServer struct{}
+type UnimplementedHealthCheckServiceServer struct{}
 
-func (UnimplementedHealthCheckServer) HealthCheck(context.Context, *HealthCheckRequest) (*HealthCheckResponse, error) {
+func (UnimplementedHealthCheckServiceServer) HealthCheck(context.Context, *HealthCheckRequest) (*HealthCheckResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method HealthCheck not implemented")
 }
-func (UnimplementedHealthCheckServer) mustEmbedUnimplementedHealthCheckServer() {}
-func (UnimplementedHealthCheckServer) testEmbeddedByValue()                     {}
+func (UnimplementedHealthCheckServiceServer) mustEmbedUnimplementedHealthCheckServiceServer() {}
+func (UnimplementedHealthCheckServiceServer) testEmbeddedByValue()                            {}
 
-// UnsafeHealthCheckServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to HealthCheckServer will
+// UnsafeHealthCheckServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to HealthCheckServiceServer will
 // result in compilation errors.
-type UnsafeHealthCheckServer interface {
-	mustEmbedUnimplementedHealthCheckServer()
+type UnsafeHealthCheckServiceServer interface {
+	mustEmbedUnimplementedHealthCheckServiceServer()
 }
 
-func RegisterHealthCheckServer(s grpc.ServiceRegistrar, srv HealthCheckServer) {
-	// If the following call pancis, it indicates UnimplementedHealthCheckServer was
+func RegisterHealthCheckServiceServer(s grpc.ServiceRegistrar, srv HealthCheckServiceServer) {
+	// If the following call pancis, it indicates UnimplementedHealthCheckServiceServer was
 	// embedded by pointer and is nil.  This will cause panics if an
 	// unimplemented method is ever invoked, so we test this at initialization
 	// time to prevent it from happening at runtime later due to I/O.
 	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
 		t.testEmbeddedByValue()
 	}
-	s.RegisterService(&HealthCheck_ServiceDesc, srv)
+	s.RegisterService(&HealthCheckService_ServiceDesc, srv)
 }
 
-func _HealthCheck_HealthCheck_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _HealthCheckService_HealthCheck_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(HealthCheckRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(HealthCheckServer).HealthCheck(ctx, in)
+		return srv.(HealthCheckServiceServer).HealthCheck(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: HealthCheck_HealthCheck_FullMethodName,
+		FullMethod: HealthCheckService_HealthCheck_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(HealthCheckServer).HealthCheck(ctx, req.(*HealthCheckRequest))
+		return srv.(HealthCheckServiceServer).HealthCheck(ctx, req.(*HealthCheckRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// HealthCheck_ServiceDesc is the grpc.ServiceDesc for HealthCheck service.
+// HealthCheckService_ServiceDesc is the grpc.ServiceDesc for HealthCheckService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var HealthCheck_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "service.healthCheck.HealthCheck",
-	HandlerType: (*HealthCheckServer)(nil),
+var HealthCheckService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "service.healthCheck.HealthCheckService",
+	HandlerType: (*HealthCheckServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "healthCheck",
-			Handler:    _HealthCheck_HealthCheck_Handler,
+			Handler:    _HealthCheckService_HealthCheck_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
