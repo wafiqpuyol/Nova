@@ -6,14 +6,16 @@ import (
 	"net"
 	"sync"
 
-	"github.com/wafiqpuyol/nova-server/internal"
-	healthCheckPB "github.com/wafiqpuyol/nova-server/proto/gen/go/healthcheck"
-	"gorm.io/gorm"
-
 	DB "github.com/wafiqpuyol/nova-server/internal/db"
-	"github.com/wafiqpuyol/nova-server/pkg/config"
+	"github.com/wafiqpuyol/nova-server/internal/handler"
+	"github.com/wafiqpuyol/nova-server/internal/repository"
+	"github.com/wafiqpuyol/nova-server/internal/service"
+	healthCheckPb "github.com/wafiqpuyol/nova-server/proto/gen/go/healthcheck"
+	authPb "github.com/wafiqpuyol/nova-server/proto/gen/go/auth"
 
+	"github.com/wafiqpuyol/nova-server/pkg/config"
 	"google.golang.org/grpc"
+	"gorm.io/gorm"
 )
 
 // func startHealthCheckServer(wg *sync.WaitGroup, port string) {
@@ -39,9 +41,18 @@ func startGRPCServer(wg *sync.WaitGroup, db *gorm.DB, url string) {
 	}
 
 	grpcServer := grpc.NewServer()
+	/* ---------------- Repository Layer ---------------- */
+	authRepo := repository.NewAuthRepository(db)
 
-	healthCheckService := internal.NewHealthCheckService(db)
-	healthCheckPB.RegisterHealthCheckServer(grpcServer, healthCheckService)
+	/* ---------------- Service Layer ---------------- */
+	authService := service.NewAuthService(authRepo)
+
+	/* ---------------- Handler Layer ---------------- */
+	authHandler := handler.NewAuthHandler(authService)
+	authPb.RegisterAuthServiceServer(grpcServer, authHandler)
+
+	healthCheckService := handler.NewHealthCheckHandler(db)
+	healthCheckPb.RegisterHealthCheckServiceServer(grpcServer, healthCheckService)
 
 	log.Printf("gRPC server listening at %v", listener.Addr())
 	if err := grpcServer.Serve(listener); err != nil {

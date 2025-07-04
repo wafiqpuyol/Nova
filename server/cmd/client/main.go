@@ -8,9 +8,11 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"github.com/wafiqpuyol/nova-server/pkg/config"
-	healthCheckPB "github.com/wafiqpuyol/nova-server/proto/gen/go/healthcheck"
+	authPb "github.com/wafiqpuyol/nova-server/proto/gen/go/auth"
+	healthCheckPb "github.com/wafiqpuyol/nova-server/proto/gen/go/healthcheck"
+
+	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 )
@@ -27,8 +29,11 @@ func main() {
 	// Register gRPC server endpoint
 	// Note: Make sure the gRPC server is running properly and accessible
 	mux := runtime.NewServeMux()
-	if err = healthCheckPB.RegisterHealthCheckHandler(context.Background(), mux, conn); err != nil {
-		log.Fatalf("failed to register the order server: %v", err)
+	if err = healthCheckPb.RegisterHealthCheckServiceHandler(context.Background(), mux, conn); err != nil {
+		log.Fatalf("failed to register the health_check server: %v", err)
+	}
+	if err = authPb.RegisterAuthServiceHandler(context.Background(), mux, conn); err != nil {
+		log.Fatalf("failed to register the health_check server: %v", err)
 	}
 
 	// start listening to requests from the gateway server
